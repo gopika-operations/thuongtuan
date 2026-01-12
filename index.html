@@ -209,11 +209,69 @@
     }
 
     @media (max-width:640px){
-      .card{padding:22px 18px 20px;}
-      h1{font-size:22px;}
-      .btn{width:100%;justify-content:center;}
-      .actions{margin-top:4px;}
-    }
+  body{
+    align-items:flex-start;
+  }
+
+  .card{
+    padding:20px 16px 18px;
+    border-radius:18px;
+  }
+
+  h1{
+    font-size:22px;
+  }
+
+  .btn{
+    width:100%;
+    justify-content:center;
+  }
+
+  .actions{
+    margin-top:4px;
+  }
+
+  /* TABLE → CARD VIEW TRÊN MOBILE */
+  table{
+    border-collapse:separate;
+    border-spacing:0;
+  }
+
+  table thead{
+    display:none;            /* Ẩn header bảng */
+  }
+
+  table,
+  tbody,
+  tr,
+  td{
+    display:block;
+    width:100%;
+  }
+
+  #compareBody tr{
+    margin-bottom:12px;
+    border-radius:12px;
+    border:1px solid var(--line);
+    background:rgba(15,23,42,0.95);
+    padding:6px 10px;
+  }
+
+  #compareBody td{
+    border-bottom:none;
+    padding:4px 0;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  #compareBody td::before{
+    content:attr(data-label);
+    font-weight:500;
+    color:var(--muted);
+    font-size:12px;
+  }
+}
   </style>
 </head>
 <body>
@@ -395,18 +453,18 @@
     if (compare.length > 0) {
       compareBody.innerHTML = '';
       compare.forEach(row => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${row.displayName || ''}</td>
-          <td>${row.fee_mask || '-'}</td>
-          <td>${row.order_mask || '-'}</td>
-          <td>Top ${row.rank_fee || '-'}</td>
-          <td>Top ${row.rank_order || '-'}</td>
-          <td>${row.score ?? '-'}</td>
-          <td>Top ${row.rank_score || '-'}</td>
-        `;
-        compareBody.appendChild(tr);
-      });
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td data-label="Tài xế">${row.displayName || ''}</td>
+    <td data-label="Doanh thu">${row.fee_mask || '-'}</td>
+    <td data-label="Đơn">${row.order_mask || '-'}</td>
+    <td data-label="Hạng DT">Top ${row.rank_fee || '-'}</td>
+    <td data-label="Hạng Đơn">Top ${row.rank_order || '-'}</td>
+    <td data-label="Điểm">${row.score ?? '-'}</td>
+    <td data-label="Hạng hiệu suất">Top ${row.rank_score || '-'}</td>
+  `;
+  compareBody.appendChild(tr);
+});
       compareCard.style.display = '';
     } else {
       compareCard.style.display = 'none';
@@ -428,6 +486,7 @@
 </script>
 </body>
 </html>
+
 
 
 
